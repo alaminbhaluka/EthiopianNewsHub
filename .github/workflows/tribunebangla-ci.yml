@@ -1,0 +1,40 @@
+name: TribuneBangla Laravel CI
+
+on:
+  push:
+    branches:
+      - tribunebangla-adaptation
+  pull_request:
+    branches:
+      - tribunebangla-adaptation
+
+jobs:
+  laravel-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, curl, fileinfo, gd, pdo, pdo_sqlite
+          coverage: none
+
+      - name: Validate Composer files
+        run: composer validate --no-check-publish
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare Laravel environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Verify route registration
+        run: php artisan route:list --except-vendor
+
+      - name: Run test suite
+        run: php artisan test
