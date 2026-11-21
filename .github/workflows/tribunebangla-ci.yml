@@ -34,7 +34,12 @@ jobs:
           php artisan key:generate
 
       - name: PHP syntax check
-        run: find app routes database -name '*.php' -print0 | xargs -0 -n1 php -l
+        run: |
+          status=0
+          while IFS= read -r -d '' file; do
+            php -l "$file" || status=1
+          done < <(find app routes database -name '*.php' -print0)
+          exit "$status"
 
       - name: Verify route registration
         run: php artisan route:list
