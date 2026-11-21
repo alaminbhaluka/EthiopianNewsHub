@@ -43,9 +43,20 @@ class HomeController extends Controller
         $mostCommonTags = collect();
         $ad = (object) [
             'home_top_bar_ad_status' => 0,
+            'home_middle_ad_status' => 0,
             'view_page_ad_status' => 0,
+            'news_page_ad_status' => 0,
+            'side_bar_ad_status' => 0,
             'home_top_bar_ad_url' => '',
+            'home_middle_ad_url' => '',
+            'view_page_ad_url' => '',
+            'news_page_ad_url' => '',
+            'side_bar_ad_url' => '',
             'home_top_bar_ad' => '',
+            'home_middle_ad' => '',
+            'view_page_ad' => '',
+            'news_page_ad' => '',
+            'side_bar_ad' => '',
         ];
 
         return view('frontend.home', compact(
@@ -76,7 +87,7 @@ class HomeController extends Controller
         })->take(5)->values();
         $mostCommonTags = collect();
         $socialCounts = collect();
-        $ad = (object) ['view_page_ad_status' => 0];
+        $ad = (object) ['view_page_ad_status' => 0, 'side_bar_ad_status' => 0, 'view_page_ad' => '', 'side_bar_ad' => ''];
 
         return view('frontend.news-details', compact(
             'news', 'recentNews', 'mostCommonTags', 'nextPost',
