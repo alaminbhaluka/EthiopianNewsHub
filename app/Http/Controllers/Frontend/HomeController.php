@@ -215,14 +215,22 @@ class HomeController extends Controller
 
     public function about()
     {
-        $about = About::where('language', getLangauge())->first();
+        $about = (object) [
+            'content' => '<p>TribuneBangla একটি স্বাধীন অনলাইন সংবাদমাধ্যম। সত্য, নিরপেক্ষতা ও জনস্বার্থকে গুরুত্ব দিয়ে সংবাদ প্রকাশে আমরা অঙ্গীকারবদ্ধ।</p>',
+        ];
+
         return view('frontend.about', compact('about'));
     }
 
     public function contact()
     {
-        $contact = Contact::where('language', getLangauge())->first();
-        $socials = SocialLink::where('status', 1)->get();
+        $contact = (object) [
+            'address' => '',
+            'phone' => '',
+            'email' => '',
+        ];
+        $socials = collect();
+
         return view('frontend.contact', compact('contact', 'socials'));
     }
 
