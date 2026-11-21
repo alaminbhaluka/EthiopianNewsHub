@@ -71,7 +71,7 @@ function setSidebarActive(array $routes): ?string
 
 function getSetting($key){
     $data = Setting::where('key', $key)->first();
-    return $data->value;
+    return $data ? $data->value : null;
 }
 
 /** Legacy CMS: active admin accounts have administrator access. */
