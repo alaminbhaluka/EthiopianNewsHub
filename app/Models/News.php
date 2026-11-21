@@ -38,7 +38,7 @@ class News extends Model
 
     public function auther()
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Admin::class, 'auther_id');
     }
 
     public function comments()
