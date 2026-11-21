@@ -3,38 +3,47 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminResetPasswordRequest;
-use App\Http\Requests\HandleLoginRequest;
-use App\Http\Requests\SendResetLinkRequest;
-use App\Mail\AdminSendResetLinkMail;
-use App\Models\Admin;
-
-;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class AdminAuthenticationController extends Controller
 {
     public function login()
     {
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('admin.auth.login');
     }
 
-    public function handleLogin(HandleLoginRequest $request)
+    public function handleLogin(Request $request)
     {
-        $request->authenticate();
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
 
-        return redirect()->route('admin.dashboard');
+        $credentials['status'] = 1;
+
+        if (!Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+            return back()->withErrors([
+                'email' => 'ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।',
+            ])->onlyInput('email');
+        }
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('admin.dashboard'));
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect()->route('admin.login');
@@ -45,38 +54,41 @@ class AdminAuthenticationController extends Controller
         return view('admin.auth.forgot-password');
     }
 
-    public function sendResetLink(SendResetLinkRequest $request)
+    public function sendResetLink(Request $request)
     {
-        $token = \Str::random(64);
+        $request->validate(['email' => ['required', 'email']]);
+        $status = Password::broker('admins')->sendResetLink($request->only('email'));
 
-        $admin = Admin::where('email', $request->email)->first();
-        $admin->remember_token = $token;
-        $admin->save();
-
-        Mail::to($request->email)->send(new AdminSendResetLinkMail($token, $request->email));
-
-        return redirect()->back()->with('success', __('admin.A mail has been sent to your email address please check!'));
-
+        return back()->with(
+            $status === Password::RESET_LINK_SENT ? 'success' : 'error',
+            __($status)
+        );
     }
 
-    public function resetPassword($token)
+    public function resetPassword(Request $request, string $token)
     {
-        return view('admin.auth.reset-password', compact('token'));
+        return view('admin.auth.reset-password', [
+            'token' => $token,
+            'email' => $request->query('email', ''),
+        ]);
     }
 
-    public function handleResetPassword(AdminResetPasswordRequest $request)
+    public function handleResetPassword(Request $request)
     {
-        $admin = Admin::where(['email' => $request->email, 'remember_token' => $request->token])->first();
+        $credentials = $request->validate([
+            'token' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', PasswordRule::defaults()],
+        ]);
 
-        if(!$admin){
-            return back()->with('error', __('admin.token is invalid'));
+        $status = Password::broker('admins')->reset($credentials, function ($admin, $password) {
+            $admin->forceFill(['password' => Hash::make($password)])->save();
+        });
+
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect()->route('admin.login')->with('success', __($status));
         }
 
-        $admin->password = bcrypt($request->password);
-        $admin->remember_token = null;
-        $admin->save();
-
-        return redirect()->route('admin.login')->with('success', __('admin.Password reset successfull'));
-
+        return back()->withErrors(['email' => __($status)]);
     }
 }
