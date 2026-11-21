@@ -17,164 +17,107 @@ use App\Models\SocialLink;
 use App\Models\Subscriber;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(\App\Services\TribuneNewsService $tribuneNews)
     {
-        $breakingNews = News::where(['is_breaking_news' => 1,])
-            ->activeEntries()->withLocalize()->orderBy('id', 'DESC')->take(10)->get();
-        $heroSlider = News::with(['category', 'auther'])
-            ->where('show_at_slider', 1)
-            ->activeEntries()
-            ->withLocalize()
-            ->orderBy('id', 'DESC')->take(7)
-            ->get();
+        $posts = $tribuneNews->publishedNews(100);
+        $categories = $tribuneNews->categories();
 
-        $recentNews = News::with(['category', 'auther'])->activeEntries()->withLocalize()
-            ->orderBy('id', 'DESC')->take(6)->get();
-        $popularNews = News::with(['category'])->where('show_at_popular', 1)
-            ->activeEntries()->withLocalize()
-            ->orderBy('updated_at', 'DESC')->take(4)->get();
+        $breakingNews = $posts->take(10);
+        $heroSlider = $posts->take(7);
+        $recentNews = $posts->take(6);
+        $popularNews = $posts->sortByDesc('views')->take(4)->values();
 
-        $HomeSectionSetting = HomeSectionSetting::where('language', getLangauge())->first();
+        $categorySectionOne = $categories->get(0) ? $posts->where('category_id', $categories->get(0)->id)->take(8) : collect();
+        $categorySectionTwo = $categories->get(1) ? $posts->where('category_id', $categories->get(1)->id)->take(8) : collect();
+        $categorySectionThree = $categories->get(2) ? $posts->where('category_id', $categories->get(2)->id)->take(6) : collect();
+        $categorySectionFour = $categories->get(3) ? $posts->where('category_id', $categories->get(3)->id)->take(4) : collect();
 
-        if($HomeSectionSetting){
-            $categorySectionOne = News::where('category_id', $HomeSectionSetting->category_section_one)
-                ->activeEntries()->withLocalize()
-                ->orderBy('id', 'DESC')
-                ->take(8)
-                ->get();
-
-        $categorySectionTwo = News::where('category_id', $HomeSectionSetting->category_section_two)
-            ->activeEntries()->withLocalize()
-            ->orderBy('id', 'DESC')
-            ->take(8)
-            ->get();
-
-        $categorySectionThree = News::where('category_id', $HomeSectionSetting->category_section_three)
-            ->activeEntries()->withLocalize()
-            ->orderBy('id', 'DESC')
-            ->take(6)
-            ->get();
-
-        $categorySectionFour = News::where('category_id', $HomeSectionSetting->category_section_four)
-            ->activeEntries()->withLocalize()
-            ->orderBy('id', 'DESC')
-            ->take(4)
-            ->get();
-        }else {
-            $categorySectionOne = collect();
-            $categorySectionTwo = collect();
-            $categorySectionThree = collect();
-            $categorySectionFour = collect();
-        }
-
-
-        $mostViewedPosts = News::activeEntries()->withLocalize()
-            ->orderBy('views', 'DESC')
-            ->take(3)
-            ->get();
-
-        $socialCounts = SocialCount::where(['status' => 1, 'language' => getLangauge()])->get();
-
-        $mostCommonTags = $this->mostCommonTags();
-
-        $ad = Ad::first();
+        $mostViewedPosts = $posts->sortByDesc('views')->take(3)->values();
+        $socialCounts = collect();
+        $mostCommonTags = collect();
+        $ad = (object) [
+            'home_top_bar_ad_status' => 0,
+            'view_page_ad_status' => 0,
+            'home_top_bar_ad_url' => '',
+            'home_top_bar_ad' => '',
+        ];
 
         return view('frontend.home', compact(
-            'breakingNews',
-            'heroSlider',
-            'recentNews',
-            'popularNews',
-            'categorySectionOne',
-            'categorySectionTwo',
-            'categorySectionThree',
-            'categorySectionFour',
-            'mostViewedPosts',
-            'socialCounts',
-            'mostCommonTags',
-            'ad'
+            'breakingNews', 'heroSlider', 'recentNews', 'popularNews',
+            'categorySectionOne', 'categorySectionTwo', 'categorySectionThree',
+            'categorySectionFour', 'mostViewedPosts', 'socialCounts',
+            'mostCommonTags', 'ad'
         ));
     }
 
-    public function ShowNews(string $slug)
+    public function ShowNews(string $slug, \App\Services\TribuneNewsService $tribuneNews)
     {
+        $posts = $tribuneNews->publishedNews(200)->values();
+        $index = $posts->search(function ($post) use ($slug) {
+            return $post->slug === $slug;
+        });
 
+        abort_if($index === false, 404);
 
-        $news = News::with(['auther', 'tags', 'comments'])->where('slug', $slug)
-        ->activeEntries()->withLocalize()
-        ->firstOrFail();
+        $news = $posts->get($index);
+        $recentNews = $posts->reject(function ($post) use ($slug) {
+            return $post->slug === $slug;
+        })->take(4)->values();
+        $previousPost = $index > 0 ? $posts->get($index - 1) : null;
+        $nextPost = $index < ($posts->count() - 1) ? $posts->get($index + 1) : null;
+        $relatedPosts = $posts->filter(function ($post) use ($news) {
+            return $post->slug !== $news->slug && $post->category_id === $news->category_id;
+        })->take(5)->values();
+        $mostCommonTags = collect();
+        $socialCounts = collect();
+        $ad = (object) ['view_page_ad_status' => 0];
 
-        $this->countView($news);
-
-        $recentNews = News::with(['category', 'auther'])->where('slug','!=', $news->slug)
-            ->activeEntries()->withLocalize()->orderBy('id', 'DESC')->take(4)->get();
-
-        $mostCommonTags = $this->mostCommonTags();
-
-        $nextPost = News::where('id', '>', $news->id)
-            ->activeEntries()
-            ->withLocalize()
-            ->orderBy('id', 'asc')->first();
-
-        $previousPost = News::where('id', '<', $news->id)
-            ->activeEntries()
-            ->withLocalize()
-            ->orderBy('id', 'desc')->first();
-
-        $relatedPosts = News::where('slug', '!=', $news->slug)
-            ->where('category_id', $news->category_id)
-            ->activeEntries()
-            ->withLocalize()
-            ->take(5)
-            ->get();
-
-        $socialCounts = SocialCount::where(['status' => 1, 'language' => getLangauge()])->get();
-
-        $ad = Ad::first();
-
-       return view('frontend.news-details', compact('news', 'recentNews', 'mostCommonTags', 'nextPost', 'previousPost', 'relatedPosts', 'socialCounts', 'ad'));
+        return view('frontend.news-details', compact(
+            'news', 'recentNews', 'mostCommonTags', 'nextPost',
+            'previousPost', 'relatedPosts', 'socialCounts', 'ad'
+        ));
     }
 
-    public function news(Request $request)
+    public function news(Request $request, \App\Services\TribuneNewsService $tribuneNews)
     {
+        $posts = $tribuneNews->publishedNews(200);
+        $categories = $tribuneNews->categories();
 
-        $news = News::query();
-
-        $news->when($request->has('tag'), function($query) use ($request){
-            $query->whereHas('tags', function($query) use ($request){
-                $query->where('name', $request->tag);
+        if ($request->filled('category')) {
+            $posts = $posts->filter(function ($post) use ($request) {
+                return optional($post->category)->slug === $request->input('category');
             });
-        });
+        }
 
-        $news->when($request->has('category') && !empty($request->category), function($query) use ($request) {
-            $query->whereHas('category', function($query) use ($request) {
-                $query->where('slug', $request->category);
+        if ($request->filled('search')) {
+            $term = trim($request->input('search'));
+            $posts = $posts->filter(function ($post) use ($term) {
+                return mb_stripos($post->title, $term) !== false
+                    || mb_stripos(strip_tags($post->content), $term) !== false
+                    || mb_stripos(optional($post->category)->name ?? '', $term) !== false;
             });
-        });
+        }
 
-        $news->when($request->has('search'), function($query) use ($request) {
-            $query->where(function($query) use ($request){
-                $query->where('title', 'like','%'.$request->search.'%')
-                    ->orWhere('content', 'like','%'.$request->search.'%');
-            })->orWhereHas('category', function($query) use ($request){
-                $query->where('name', 'like','%'.$request->search.'%');
-            });
-        });
+        $perPage = 20;
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $items = $posts->values();
+        $news = new LengthAwarePaginator(
+            $items->forPage($page, $perPage),
+            $items->count(),
+            $perPage,
+            $page,
+            ['path' => LengthAwarePaginator::resolveCurrentPath(), 'query' => $request->query()]
+        );
 
-        $news = $news->activeEntries()->withLocalize()->paginate(20);
-
-
-        $recentNews = News::with(['category', 'auther'])
-            ->activeEntries()->withLocalize()->orderBy('id', 'DESC')->take(4)->get();
-        $mostCommonTags = $this->mostCommonTags();
-
-        $categories = Category::where(['status' => 1, 'language' => getLangauge()])->get();
-
-        $ad = Ad::first();
+        $recentNews = $tribuneNews->publishedNews(6);
+        $mostCommonTags = collect();
+        $ad = (object) ['view_page_ad_status' => 0];
 
         return view('frontend.news', compact('news', 'recentNews', 'mostCommonTags', 'categories', 'ad'));
     }
