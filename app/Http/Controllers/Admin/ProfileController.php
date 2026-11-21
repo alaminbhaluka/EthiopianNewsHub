@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminProfileUpdateRequest;
-use App\Http\Requests\AdminUpdatePasswordRequest;
 use App\Models\Admin;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
@@ -29,8 +27,13 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdminProfileUpdateRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:150'],
+            'email' => ['required', 'email', 'max:190', 'unique:admins,email,' . $id],
+            'image' => ['nullable', 'image', 'max:5120'],
+        ]);
 
         /** Handle image */
         $imagePath = $this->handleFileUpload($request, 'image', $request->old_image);
@@ -50,8 +53,11 @@ class ProfileController extends Controller
     /**
      * Update the specified resource for password.
      */
-    public function passwordUpdate(AdminUpdatePasswordRequest $request, string $id)
+    public function passwordUpdate(Request $request, string $id)
     {
+        $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
 
         $admin = Admin::findOrFail($id);
         $admin->password = bcrypt($request->password);
