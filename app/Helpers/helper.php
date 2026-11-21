@@ -75,30 +75,21 @@ function getSetting($key){
     return $data->value;
 }
 
-/** check permission */
-
-function canAccess(array $permissions){
-
-   $permission = auth()->guard('admin')->user()->hasAnyPermission($permissions);
-   $superAdmin = auth()->guard('admin')->user()->hasRole('Super Admin');
-
-   if($permission || $superAdmin){
-    return true;
-   }else {
-    return false;
-   }
-
+/** Legacy CMS: active admin accounts have administrator access. */
+function canAccess(array $permissions)
+{
+    return auth()->guard('admin')->check()
+        && (int) auth()->guard('admin')->user()->status === 1;
 }
 
-/** get admin role */
-
-function getRole(){
-    $role = auth()->guard('admin')->user()->getRoleNames();
-    return $role->first();
+/** Single-role admin setup (Spatie package is not part of this project). */
+function getRole()
+{
+    return auth()->guard('admin')->check() ? 'Super Admin' : null;
 }
 
-/** check user permission */
-
-function checkPermission(string $permission){
-    return auth()->guard('admin')->user()->hasPermissionTo($permission);
+/** Check whether the current account is an authenticated admin. */
+function checkPermission(string $permission)
+{
+    return canAccess([$permission]);
 }
