@@ -10,7 +10,10 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::guard('admin')->check()) {
+        $admin = Auth::guard('admin')->user();
+
+        if (!$admin || (int) $admin->status !== 1) {
+            Auth::guard('admin')->logout();
             return redirect()->route('admin.login');
         }
 
