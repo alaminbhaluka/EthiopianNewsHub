@@ -29,16 +29,20 @@
 
 <body>
 
-    <!-- Global Variables -->
+    <!-- Shared layout data; article content is served by TribuneBangla Supabase. -->
     @php
-        $socialLinks = \App\Models\SocialLink::where('status', 1)->get();
-        $footerInfo = \App\Models\FooterInfo::where('language', getLangauge())->first();
-        $footerGridOne = \App\Models\FooterGridOne::where(['status' => 1, 'language' => getLangauge()])->get();
-        $footerGridTwo = \App\Models\FooterGridTwo::where(['status' => 1, 'language' => getLangauge()])->get();
-        $footerGridThree = \App\Models\FooterGridThree::where(['status' => 1, 'language' => getLangauge()])->get();
-        $footerGridOneTitle = \App\Models\FooterTitle::where(['key' => 'grid_one_title', 'language' => getLangauge()])->first();
-        $footerGridTwoTitle = \App\Models\FooterTitle::where(['key' => 'grid_two_title', 'language' => getLangauge()])->first();
-        $footerGridThreeTitle = \App\Models\FooterTitle::where(['key' => 'grid_three_title', 'language' => getLangauge()])->first();
+        $socialLinks = collect();
+        $footerInfo = (object) [
+            'logo' => 'frontend/assets/images/logo1.png',
+            'description' => 'সত্য ও ন্যায়ের পক্ষে, মানুষের কথা তুলে ধরাই আমাদের অঙ্গীকার।',
+            'copyright' => '© ' . date('Y') . ' TribuneBangla.com. সর্বস্বত্ব সংরক্ষিত।',
+        ];
+        $footerGridOne = collect();
+        $footerGridTwo = collect();
+        $footerGridThree = collect();
+        $footerGridOneTitle = (object) ['value' => 'TribuneBangla'];
+        $footerGridTwoTitle = (object) ['value' => 'গুরুত্বপূর্ণ লিংক'];
+        $footerGridThreeTitle = (object) ['value' => 'যোগাযোগ'];
     @endphp
 
     <!-- Header news -->
