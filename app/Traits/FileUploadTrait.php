@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileUploadTrait
 {
-    protected function handleFileUpload(Request $request, string $field): ?string
+    protected function handleFileUpload(Request $request, string $field, ?string $oldPath = null): ?string
     {
         if (!$request->hasFile($field) || !$request->file($field)->isValid()) {
-            return null;
+            return $oldPath;
         }
 
         $path = $request->file($field)->store('uploads/news', 'public');
