@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminNewsCreateRequest;
-use App\Http\Requests\AdminNewsUpdateRequest;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\News;
@@ -74,8 +72,19 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AdminNewsCreateRequest $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'language' => ['required', 'exists:languages,lang'],
+            'category' => ['required', 'exists:categories,id'],
+            'image' => ['required', 'image', 'max:5120'],
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
+            'tags' => ['nullable', 'string', 'max:1000'],
+            'meta_title' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string', 'max:500'],
+        ]);
+
         /** Handle image */
         $imagePath = $this->handleFileUpload($request, 'image');
 
@@ -96,7 +105,7 @@ class NewsController extends Controller
         $news->is_approved = getRole() == 'Super Admin' || checkPermission('news all-access') ? 1 : 0;
         $news->save();
 
-        $tags = explode(',', $request->tags);
+        $tags = array_filter(array_map('trim', explode(',', (string) $request->tags)));
         $tagIds = [];
 
         foreach ($tags as $tag) {
@@ -108,7 +117,7 @@ class NewsController extends Controller
             $tagIds[] = $item->id;
         }
 
-        $news->tags()->attach($tagIds);
+        $news->tags()->sync($tagIds);
 
 
         toast(__('admin.Created Successfully!'), 'success')->width('330');
@@ -154,8 +163,18 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdminNewsUpdateRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
+        $request->validate([
+            'language' => ['required', 'exists:languages,lang'],
+            'category' => ['required', 'exists:categories,id'],
+            'image' => ['nullable', 'image', 'max:5120'],
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
+            'tags' => ['nullable', 'string', 'max:1000'],
+            'meta_title' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string', 'max:500'],
+        ]);
 
         $news = News::findOrFail($id);
 
@@ -180,14 +199,8 @@ class NewsController extends Controller
         $news->status = $request->status == 1 ? 1 : 0;
         $news->save();
 
-        $tags = explode(',', $request->tags);
+        $tags = array_filter(array_map('trim', explode(',', (string) $request->tags)));
         $tagIds = [];
-
-        /** Delete previos tags */
-        $news->tags()->delete();
-
-        /** detach tags form pivot table */
-        $news->tags()->detach($news->tags);
 
         foreach ($tags as $tag) {
             $item = new Tag();
@@ -198,7 +211,7 @@ class NewsController extends Controller
             $tagIds[] = $item->id;
         }
 
-        $news->tags()->attach($tagIds);
+        $news->tags()->sync($tagIds);
 
 
         toast(__('admin.Update Successfully!'), 'success')->width('330');
@@ -213,7 +226,7 @@ class NewsController extends Controller
     {
         $news = News::findOrFail($id);
         $this->deleteFile($news->image);
-        $news->tags()->delete();
+        $news->tags()->detach();
         $news->delete();
 
         return response(['status' => 'success', 'message' => __('admin.Deleted Successfully!')]);
