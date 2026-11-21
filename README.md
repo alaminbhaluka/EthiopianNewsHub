@@ -1,8 +1,8 @@
-# 🇪🇹 EthioNewsHub
+# tribunebangla
 
-### Ethiopian Digital News & Media Platform
+### tribunebangla Digital News & Media Platform
 
-**EthioNewsHub** is a modern, scalable, and feature-rich **Laravel-based digital news platform** designed for Ethiopian media organizations, journalists, reporters, editors, and readers.
+**tribunebangla** is a modern, scalable, and feature-rich **Laravel-based digital news platform** designed for tribunebangla media organizations, journalists, reporters, editors, and readers.
 
 The platform provides a complete news publishing ecosystem with **multi-role content management, multilingual publishing, SEO optimization, analytics, comments, scheduled publishing, APIs, and AI-powered features**.
 
