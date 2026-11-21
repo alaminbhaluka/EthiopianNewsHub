@@ -16,6 +16,10 @@
             <li class="active">
                 <a href="{{ route('admin.dashboard') }}" class="nav-link"><i class="fas fa-fire"></i><span>{{ __('admin.Dashboard') }}</span></a>
             </li>
+            <li class="menu-header">TribuneBangla</li>
+            <li class="{{ setSidebarActive(['admin.tribune-news.*']) }}">
+                <a href="{{ route('admin.tribune-news.index') }}" class="nav-link"><i class="fas fa-globe"></i><span>সাইটে প্রকাশিত সংবাদ</span></a>
+            </li>
             <li class="menu-header">{{ __('admin.Starter') }}</li>
 
             @if (canAccess(['category index', 'category create', 'category udpate', 'category delete']))
