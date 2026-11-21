@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class TribuneNewsService
 {
@@ -48,8 +47,8 @@ class TribuneNewsService
     {
         $html = $html ?: '';
         $html = preg_replace('#<(script|style|iframe|object|embed)\\b[^>]*>[\\s\\S]*?</\\1>#i', '', $html);
-        $html = preg_replace('/\\s+on[a-z]+\\s*=\\s*("[^"]*"|\\'[^\\']*\\'|[^\\s>]+)/i', '', $html);
-        $html = preg_replace('/(href|src)\\s*=\\s*(["\\'])\\s*(?:javascript|vbscript|data):.*?\\2/i', '$1=$2#$2', $html);
+        $html = preg_replace("~\\s+on[a-z]+\\s*=\\s*(\"[^\"]*\"|'[^']*'|[^\\s>]+)~i", '', $html);
+        $html = preg_replace("~(href|src)\\s*=\\s*([\"'])\\s*(?:javascript|vbscript|data):.*?\\2~i", '$1=$2#$2', $html);
         return $html;
     }
 
