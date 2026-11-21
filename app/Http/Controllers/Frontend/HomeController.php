@@ -106,7 +106,7 @@ class HomeController extends Controller
 
         $news = News::with(['auther', 'tags', 'comments'])->where('slug', $slug)
         ->activeEntries()->withLocalize()
-        ->first();
+        ->firstOrFail();
 
         $this->countView($news);
 
