@@ -14,20 +14,19 @@ function formatTags(array $tags): String
 /** get selected language from session */
 function getLangauge(): string
 {
-    if(session()->has('language')){
+    if (session()->has('language')) {
         return session('language');
-    }else {
-        try {
-            $language = Language::where('default', 1)->first();
-            setLanguage($language->lang);
-
-            return $language->lang;
-        } catch (\Throwable $th) {
-            setLanguage('en');
-
-            return $language->lang;
-        }
     }
+
+    try {
+        $language = Language::where('default', 1)->first();
+        $code = $language && $language->lang ? $language->lang : 'bn';
+    } catch (\Throwable $exception) {
+        $code = 'bn';
+    }
+
+    setLanguage($code);
+    return $code;
 }
 
 /** set language code in session */
