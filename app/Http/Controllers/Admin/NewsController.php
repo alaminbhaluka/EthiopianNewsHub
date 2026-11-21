@@ -159,7 +159,7 @@ class NewsController extends Controller
 
         $news = News::findOrFail($id);
 
-        if($news->auther_id != auth()->guard('admin')->user()->id || getRole() != 'Super Admin'){
+        if($news->auther_id != auth()->guard('admin')->user()->id && getRole() != 'Super Admin'){
             return abort(404);
         }
 
