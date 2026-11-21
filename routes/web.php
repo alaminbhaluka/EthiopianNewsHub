@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\LanguageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +22,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact', [HomeController::class, 'handleContactFrom'])->name('contact.send');
 Route::post('/newsletter/subscribe', [HomeController::class, 'SubscribeNewsLetter'])->name('subscribe-newsletter');
 
-Route::get('/language', function (\Illuminate\Http\Request $request) {
-    session(['language' => 'bn']);
-    return response()->json(['status' => 'success']);
-})->name('language');
+Route::get('/language', LanguageController::class)->name('language');
 
 Route::middleware('auth')->group(function () {
     Route::post('/comment', [HomeController::class, 'handleComment'])->name('comment.store');
