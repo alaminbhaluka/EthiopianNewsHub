@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['language', 'name', 'slug', 'show_at_nav', 'status'];
+
     public function news()
     {
         return $this->hasMany(News::class);
