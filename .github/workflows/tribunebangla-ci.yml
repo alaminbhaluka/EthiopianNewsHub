@@ -44,5 +44,10 @@ jobs:
       - name: Verify route registration
         run: php artisan route:list
 
+      - name: Verify route cache
+        run: |
+          php artisan route:cache
+          php artisan route:clear
+
       - name: Run test suite
         run: php artisan test
