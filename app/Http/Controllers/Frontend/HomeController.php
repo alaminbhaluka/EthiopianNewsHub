@@ -128,7 +128,7 @@ class HomeController extends Controller
 
         $recentNews = $tribuneNews->publishedNews(6);
         $mostCommonTags = collect();
-        $ad = (object) ['view_page_ad_status' => 0];
+        $ad = (object) ['news_page_ad_status' => 0, 'side_bar_ad_status' => 0, 'news_page_ad' => '', 'side_bar_ad' => ''];
 
         return view('frontend.news', compact('news', 'recentNews', 'mostCommonTags', 'categories', 'ad'));
     }
