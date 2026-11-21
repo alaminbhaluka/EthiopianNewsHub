@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace App\Http\Middleware;
 
@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class TrackVisitor
 {
-    public function handle(Request \, Closure \)
+    public function handle(Request $request, Closure $next)
     {
-        return \(\);
+        return $next($request);
     }
 }
