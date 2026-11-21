@@ -15,11 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/news', [HomeController::class, 'news'])->name('news');
-Route::get('/news/{slug}', [HomeController::class, 'ShowNews'])->name('news.details');
+Route::get('/news/{slug}', [HomeController::class, 'ShowNews'])->name('news-details');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact', [HomeController::class, 'handleContactFrom'])->name('contact.send');
-Route::post('/newsletter/subscribe', [HomeController::class, 'SubscribeNewsLetter'])->name('newsletter.subscribe');
+Route::post('/newsletter/subscribe', [HomeController::class, 'SubscribeNewsLetter'])->name('subscribe-newsletter');
+
+Route::get('/language', function (\\Illuminate\\Http\\Request $request) {
+    $code = $request->query('language_code', 'bn');
+    session(['language' => $code === 'bn' ? 'bn' : 'bn']);
+    return response()->json(['status' => 'success']);
+})->name('language');
 
 Route::middleware('auth')->group(function () {
     Route::post('/comment', [HomeController::class, 'handleComment'])->name('comment.store');
