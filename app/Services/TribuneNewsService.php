@@ -44,6 +44,15 @@ class TribuneNewsService
         }
     }
 
+    protected function sanitizeBody(?string $html): string
+    {
+        $html = $html ?: '';
+        $html = preg_replace('#<(script|style|iframe|object|embed)\\b[^>]*>[\\s\\S]*?</\\1>#i', '', $html);
+        $html = preg_replace('/\\s+on[a-z]+\\s*=\\s*("[^"]*"|\\'[^\\']*\\'|[^\\s>]+)/i', '', $html);
+        $html = preg_replace('/(href|src)\\s*=\\s*(["\\'])\\s*(?:javascript|vbscript|data):.*?\\2/i', '$1=$2#$2', $html);
+        return $html;
+    }
+
     public function categories()
     {
         return collect($this->request('categories', [
@@ -78,8 +87,8 @@ class TribuneNewsService
                 'title' => $row['title'] ?? '',
                 'slug' => $row['slug'] ?? '',
                 'excerpt' => $row['excerpt'] ?? '',
-                'content' => $row['body'] ?? '',
-                'body' => $row['body'] ?? '',
+                'content' => $this->sanitizeBody($row['body'] ?? ''),
+                'body' => $this->sanitizeBody($row['body'] ?? ''),
                 'image' => $row['featured_image'] ?? '',
                 'image_alt' => $row['image_alt'] ?? ($row['title'] ?? ''),
                 'category_id' => $row['category_id'] ?? null,
