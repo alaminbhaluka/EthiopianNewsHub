@@ -21,9 +21,8 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact', [HomeController::class, 'handleContactFrom'])->name('contact.send');
 Route::post('/newsletter/subscribe', [HomeController::class, 'SubscribeNewsLetter'])->name('subscribe-newsletter');
 
-Route::get('/language', function (\\Illuminate\\Http\\Request $request) {
-    $code = $request->query('language_code', 'bn');
-    session(['language' => $code === 'bn' ? 'bn' : 'bn']);
+Route::get('/language', function (\Illuminate\Http\Request $request) {
+    session(['language' => 'bn']);
     return response()->json(['status' => 'success']);
 })->name('language');
 
