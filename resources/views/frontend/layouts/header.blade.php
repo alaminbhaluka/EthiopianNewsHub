@@ -45,7 +45,7 @@
                                 @csrf
 
                             <li><a  onclick="event.preventDefault();
-                                this.closest('form').submit();" href="{{ route('register') }}">{{ __('frontend.Logout') }}</a></li>
+                                this.closest('form').submit();" href="{{ route('logout') }}">{{ __('frontend.Logout') }}</a></li>
 
                             </form>
                             @endif
