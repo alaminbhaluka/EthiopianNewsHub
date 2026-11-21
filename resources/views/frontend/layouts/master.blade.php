@@ -37,9 +37,9 @@
             'description' => 'সত্য ও ন্যায়ের পক্ষে, মানুষের কথা তুলে ধরাই আমাদের অঙ্গীকার।',
             'copyright' => '© ' . date('Y') . ' TribuneBangla.com. সর্বস্বত্ব সংরক্ষিত।',
         ];
-        $footerGridOne = collect();
-        $footerGridTwo = collect();
-        $footerGridThree = collect();
+        $footerGridOne = $siteCategories->take(4)->map(function ($category) { return (object) ['name' => $category->name, 'url' => route('news', ['category' => $category->slug]), 'status' => 1]; });
+        $footerGridTwo = $siteCategories->slice(4, 4)->map(function ($category) { return (object) ['name' => $category->name, 'url' => route('news', ['category' => $category->slug]), 'status' => 1]; });
+        $footerGridThree = $siteCategories->slice(8, 4)->map(function ($category) { return (object) ['name' => $category->name, 'url' => route('news', ['category' => $category->slug]), 'status' => 1]; });
         $footerGridOneTitle = (object) ['value' => 'TribuneBangla'];
         $footerGridTwoTitle = (object) ['value' => 'গুরুত্বপূর্ণ লিংক'];
         $footerGridThreeTitle = (object) ['value' => 'যোগাযোগ'];
