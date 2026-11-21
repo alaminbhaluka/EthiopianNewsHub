@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace App\Policies;
 
@@ -6,33 +6,28 @@ use App\Models\User;
 
 class UserPolicy
 {
-    public function __construct()
+    public function viewAny(User $user): bool
     {
-        //
+        return false;
     }
 
-    public function viewAny(User \)
+    public function view(User $user, User $target): bool
     {
-        //
+        return (int) $user->id === (int) $target->id;
     }
 
-    public function view(User \, \)
+    public function create(User $user): bool
     {
-        //
+        return false;
     }
 
-    public function create(User \)
+    public function update(User $user, User $target): bool
     {
-        //
+        return (int) $user->id === (int) $target->id;
     }
 
-    public function update(User \, \)
+    public function delete(User $user, User $target): bool
     {
-        //
-    }
-
-    public function delete(User \, \)
-    {
-        //
+        return false;
     }
 }
