@@ -1,38 +1,34 @@
-﻿<?php
+<?php
 
 namespace App\Policies;
 
+use App\Models\Comment;
 use App\Models\User;
 
 class CommentPolicy
 {
-    public function __construct()
+    public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
-    public function viewAny(User \)
+    public function view(User $user, Comment $comment): bool
     {
-        //
+        return (int) $comment->status === 1 || (int) $comment->user_id === (int) $user->id;
     }
 
-    public function view(User \, \)
+    public function create(User $user): bool
     {
-        //
+        return true;
     }
 
-    public function create(User \)
+    public function update(User $user, Comment $comment): bool
     {
-        //
+        return (int) $comment->user_id === (int) $user->id;
     }
 
-    public function update(User \, \)
+    public function delete(User $user, Comment $comment): bool
     {
-        //
-    }
-
-    public function delete(User \, \)
-    {
-        //
+        return (int) $comment->user_id === (int) $user->id;
     }
 }
