@@ -2,11 +2,11 @@
 
 use App\Models\Language;
 use App\Models\Setting;
-use PhpParser\Node\Expr\Cast\String_;
+use Illuminate\Support\Str;
 
 /** format news tags */
 
-function formatTags(array $tags): String
+function formatTags(array $tags): string
 {
    return implode(',', $tags);
 }
@@ -37,14 +37,14 @@ function setLanguage(string $code): void
 
 /** Truncate text */
 
-function truncate(string $text, int $limit = 45): String
+function truncate(string $text, int $limit = 45): string
 {
-    return \Str::limit($text, $limit, '...');
+    return Str::limit($text, $limit, '...');
 }
 
 /** Convert a number in K format */
 
-function convertToKFormat(int $number): String
+function convertToKFormat(int $number): string
 {
     if($number < 1000){
         return $number;
@@ -91,4 +91,16 @@ function getRole()
 function checkPermission(string $permission)
 {
     return canAccess([$permission]);
+}
+
+
+/** Flash a simple admin toast message without a third-party package. */
+function toast(string $message, string $type = 'success')
+{
+    session()->flash('toast', [
+        'message' => $message,
+        'type' => in_array($type, ['success', 'error', 'warning', 'info'], true) ? $type : 'info',
+    ]);
+
+    return new \\App\\Support\\Toast();
 }
