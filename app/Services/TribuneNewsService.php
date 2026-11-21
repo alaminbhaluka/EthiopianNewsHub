@@ -22,7 +22,7 @@ class TribuneNewsService
             $response = Http::withHeaders([
                 'apikey' => $apiKey,
                 'Accept' => 'application/json',
-            ])->timeout((int) config('services.supabase.rest_timeout', 8))
+            ])->timeout((int) config('services.supabase.timeout', 8))
               ->get($baseUrl . '/rest/v1/' . $table, $query);
 
             if (!$response->successful()) {
