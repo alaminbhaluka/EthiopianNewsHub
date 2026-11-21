@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
 
             try {
                 $settings = array_merge($settings, Setting::pluck('value', 'key')->toArray());
-            } catch (\\Throwable $exception) {
+            } catch (\Throwable $exception) {
                 report($exception);
             }
 
