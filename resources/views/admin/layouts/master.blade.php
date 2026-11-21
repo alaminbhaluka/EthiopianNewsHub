@@ -78,7 +78,12 @@
     <script src="{{ asset('admin/assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <script src="{{ asset('admin/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
     <!-- Sweet Alert Js -->
-    @include('sweetalert::alert')
+    @if (session()->has('toast'))
+        <div class="alert alert-{{ session('toast.type', 'info') }} alert-dismissible fade show m-3" role="alert">
+            {{ session('toast.message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+    @endif
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
