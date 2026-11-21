@@ -72,11 +72,7 @@
                         @endif
                     </a></li>
             @endif
-            @if (canAccess(['home section index']))
-                <li class="{{ setSidebarActive(['admin.home-section-setting.*']) }}"><a class="nav-link"
-                        href="{{ route('admin.home-section-setting.index') }}"><i class="fas fa-wrench"></i>
-                        <span>{{ __('admin.Home Section Setting') }}</span></a></li>
-            @endif
+
 
             @if (canAccess(['advertisement index']))
                 <li class="{{ setSidebarActive(['admin.ad.*']) }}"><a class="nav-link"
@@ -121,25 +117,7 @@
                 </li>
             @endif
 
-            @if (canAccess(['access management index']))
-                <li class="dropdown
-                {{ setSidebarActive([
-                    'admin.role.*',
-                    'admin.role-users.*'
-                    ]) }}
-            ">
-                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-user-shield"></i>
-                        <span>{{ __('admin.Access Management') }}</span></a>
-                    <ul class="dropdown-menu">
 
-                        <li class="{{ setSidebarActive(['admin.role-users.*']) }}"><a class="nav-link"
-                                href="{{ route('admin.role-users.index') }}">{{ __('admin.Role Users') }}</a></li>
-
-                        <li class="{{ setSidebarActive(['admin.role.*']) }}"><a class="nav-link"
-                                href="{{ route('admin.role.index') }}">{{ __('admin.Roles and Permissions') }}</a></li>
-                    </ul>
-                </li>
-            @endif
 
             @if (canAccess(['setting index']))
                 <li class="{{ setSidebarActive(['admin.setting.*']) }}"><a class="nav-link"
