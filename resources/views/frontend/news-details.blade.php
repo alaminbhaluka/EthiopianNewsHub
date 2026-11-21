@@ -120,6 +120,14 @@
                         <p class="has-drop-cap-fluid">
                             {!! $news->content !!}
                         </p>
+                        @if (!empty($news->source_url))
+                            <div class="mt-3 py-2 px-3 border-top border-bottom small text-muted">
+                                সংবাদ সূত্র:
+                                <a href="{{ $news->source_url }}" target="_blank" rel="noopener noreferrer" class="text-muted">
+                                    {{ $news->source_name ?: 'মূল প্রতিবেদন' }}
+                                </a>
+                            </div>
+                        @endif
                     </div>
 
 
@@ -155,7 +163,7 @@
                         </figure>
                         <div class="wrap__profile-author-detail">
                             <div class="author-wrapper">
-                                <div class="wrap__profile-author-detail-name">{{ $news->auther->getRoleNames()->first() }}</div>
+                                <div class="wrap__profile-author-detail-name">সংবাদ ডেস্ক</div>
                             <h4>{{ $news->auther->name }}</h4>
 
                             </div>
@@ -164,155 +172,7 @@
                 </div>
                 <!-- end author-->
 
-                <!-- Comment  -->
-                @auth
-                <div id="comments" class="comments-area">
-                    <h3 class="comments-title">{{ $news->comments()->count() }} {{ __('frontend.Comments:') }}</h3>
 
-                    <ol class="comment-list">
-                        @foreach ($news->comments()->whereNull('parent_id')->get() as $comment)
-
-                        <li class="comment">
-                            <aside class="comment-body">
-                                <div class="comment-meta">
-                                    <div class="comment-author vcard">
-                                        <img src="{{ asset('frontend/assets/images/avatar.png') }}" class="avatar" alt="image">
-                                        <b class="fn">{{ $comment->user->name }}</b>
-                                        <span class="says">{{ __('frontend.says') }}:</span>
-                                    </div>
-
-                                    <div class="comment-metadata">
-                                        <a href="javascript:;">
-                                            <span>{{ date('M, d, Y H:i', strtotime($comment->created_at)) }}</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="comment-content">
-                                    <p>
-                                        {{ $comment->comment }}
-                                    </p>
-                                </div>
-
-                                <div class="reply">
-                                    <a href="#" class="comment-reply-link" data-toggle="modal"
-                                        data-target="#exampleModal-{{ $comment->id }}">{{ __('frontend.Reply') }}</a>
-                                    <span class="delete-msg" data-id="{{ $comment->id }}">
-                                        <i class="fa fa-trash"></i>
-                                    </span>
-                                </div>
-                            </aside>
-
-                            @if ($comment->reply()->count() > 0)
-                            @foreach ($comment->reply as $reply)
-
-                            <ol class="children">
-                                <li class="comment">
-                                    <aside class="comment-body">
-                                        <div class="comment-meta">
-                                            <div class="comment-author vcard">
-                                                <img src="{{ asset('frontend/assets/images/avatar.png') }}" class="avatar" alt="image">
-                                                <b class="fn">{{ $reply->user->name }}</b>
-                                                <span class="says">{{ __('frontend.says:') }}</span>
-                                            </div>
-
-                                            <div class="comment-metadata">
-                                                <a href="javascript:;">
-                                                    <span>{{ date('M, d, Y H:i', strtotime($reply->created_at)) }}</span>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="comment-content">
-                                            <p>{{ $reply->comment }}</p>
-                                        </div>
-
-                                        <div class="reply">
-                                            @if ($loop->last)
-                                            <a href="#" class="comment-reply-link" data-toggle="modal"
-                                                data-target="#exampleModal-{{ $comment->id }}">{{ __('frontend.Reply') }}</a>
-                                            @endif
-
-                                            <span class="delete-msg" style="margin-left: auto;" data-id="{{ $reply->id }}">
-                                                <i class="fa fa-trash"></i>
-                                            </span>
-                                        </div>
-                                    </aside>
-                                </li>
-                            </ol>
-                            @endforeach
-                            @endif
-
-                        </li>
-
-                        <!-- Modal -->
-                        <div class="comment_modal">
-                            <div class="modal fade" id="exampleModal-{{ $comment->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">{{ __('frontend.Write Your Comment') }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('news-comment-replay') }}" method="POST">
-                                                @csrf
-                                                <textarea name="replay" cols="30" rows="7" placeholder="Type. . ."></textarea>
-                                                <input type="hidden" name="news_id" value="{{ $news->id }}">
-                                                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-
-                                                <button type="submit">{{ __('frontend.submit') }}</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        @endforeach
-
-                    </ol>
-
-                    <div class="comment-respond">
-                        <h3 class="comment-reply-title">{{ __('frontend.Leave a Reply') }}</h3>
-
-                        <form action="{{ route('news-comment') }}" method="POST" class="comment-form">
-                            @csrf
-                            <p class="comment-notes">
-
-                            </p>
-                            <p class="comment-form-comment">
-                                <label for="comment">{{ __('frontend.Comment') }}</label>
-                                <textarea name="comment" id="comment" cols="45" rows="5" maxlength="65525"
-                                    required="required"></textarea>
-                                <input type="hidden" name="news_id" value="{{ $news->id }}">
-                                <input type="hidden" name="parent_id" value="">
-
-                                @error('comment')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </p>
-
-                            <p class="form-submit mb-0">
-                                <input type="submit" name="submit" id="submit" class="submit" value="Post Comment">
-                            </p>
-                        </form>
-                    </div>
-                </div>
-                @else
-                <div class="card my-5">
-                    <div class="card-body">
-                        <h5 class="p-0">{{ __('frontend.Please') }} <a href="{{ route('login') }}">{{ __('frontend.Login') }}</a> {{ __('frontend.to comment in the post!') }}</h5>
-                    </div>
-                </div>
-                @endauth
-
-
-
-                <!-- end comment -->
 
                 <div class="row">
                     <div class="col-md-6">
