@@ -102,5 +102,5 @@ function toast(string $message, string $type = 'success')
         'type' => in_array($type, ['success', 'error', 'warning', 'info'], true) ? $type : 'info',
     ]);
 
-    return new \\App\\Support\\Toast();
+    return new \App\Support\Toast();
 }
