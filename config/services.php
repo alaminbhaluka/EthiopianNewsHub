@@ -33,7 +33,7 @@ return [
 
     'supabase' => [
         'url' => env('SUPABASE_URL'),
-        'publishable_key' => env('SUPABASE_PUBLISHABLE_KEY'),
+        'publishable_key' => env('SUPABASE_PUBLISHABLE_KEY', 'sb_publishable___JNcLdKcXvRSSdP6ZoA7A_mVDD2phD'),
         'timeout' => (int) env('SUPABASE_REST_TIMEOUT', 8),
     ],
 ];
