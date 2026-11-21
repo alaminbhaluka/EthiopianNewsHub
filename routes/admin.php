@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SocialCountController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\TribuneNewsController;
 use App\Models\FooterGridOne;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']], function(){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('tribune-news', [TribuneNewsController::class, 'index'])->name('tribune-news.index');
     /**Profile Routes */
     Route::put('profile-password-update/{id}', [ ProfileController::class, 'passwordUpdate'])->name('profile-password.update');
     Route::resource('profile', ProfileController::class);
