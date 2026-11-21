@@ -34,7 +34,7 @@ jobs:
           php artisan key:generate
 
       - name: Verify route registration
-        run: php artisan route:list --except-vendor
+        run: php artisan route:list
 
       - name: Run test suite
         run: php artisan test
