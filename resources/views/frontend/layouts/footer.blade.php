@@ -4,11 +4,8 @@
             <div class="row align-items-center">
                 <div class="col-md-7 text-center text-md-left mb-3 mb-md-0">
                     <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                        <img src="{{ asset('assets/tribune-mark.svg') }}" alt="ট্রিবিউন বাংলা" style="width:42px;height:42px;object-fit:contain;margin-right:12px;">
-                        <div>
-                            <h5 class="text-white mb-0" style="font-size:17px;font-weight:700;">ট্রিবিউন বাংলা</h5>
-                            <p class="text-white mb-0" style="font-size:12px;opacity:.78;">সত্য ও ন্যায়ের পক্ষে</p>
-                        </div>
+                        <img src="{{ asset('assets/tribune-mark.svg') }}" alt="" style="width:42px;height:42px;object-fit:contain;">
+                        <img src="{{ asset('assets/tribune-wordmark.svg') }}" alt="ট্রিবিউন বাংলা" style="width:155px;height:44px;object-fit:contain;margin-left:9px;">
                     </div>
                 </div>
                 <div class="col-md-5 text-center text-md-right">
