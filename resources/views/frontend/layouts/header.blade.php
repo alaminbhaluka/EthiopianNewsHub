@@ -70,7 +70,7 @@
                 </div>
                 <figure class="mb-0 mx-auto">
                     <a href="{{ url('/') }}">
-                        <img src="{{ asset($settings['site_logo']) }}" alt="" class="img-fluid logo">
+                        <img src="{{ asset(!empty($settings['site_logo']) ? $settings['site_logo'] : 'frontend/assets/images/logo1.png') }}" alt="TribuneBangla" class="img-fluid logo" style="max-height:68px;width:auto;max-width:240px;object-fit:contain;">
                     </a>
                 </figure>
 
