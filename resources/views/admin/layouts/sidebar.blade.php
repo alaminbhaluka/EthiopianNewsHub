@@ -6,10 +6,10 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">{{ __('admin.Stisla') }}</a>
+            <a href="{{ route('admin.dashboard') }}">TribuneBangla</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">{{ __('admin.St') }}</a>
+            <a href="{{ route('admin.dashboard') }}">TB</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">{{ __('admin.Dashboard') }}</li>
@@ -52,7 +52,7 @@
                             <li class="{{ setSidebarActive(['admin.about.*']) }}"><a class="nav-link"
                                     href="{{ route('admin.about.index') }}">{{ __('admin.About Page') }}</a></li>
                         @endif
-                        @if (canAccess(['conatact index']))
+                        @if (canAccess(['contact index']))
                             <li class="{{ setSidebarActive(['admin.contact.*']) }}"><a class="nav-link"
                                     href="{{ route('admin.contact.index') }}">{{ __('admin.Contact Page') }}</a></li>
                         @endif
