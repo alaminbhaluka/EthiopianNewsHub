@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
 use App\Services\TribuneNewsService;
 use App\Models\Setting;
 
@@ -16,6 +17,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // Vercel terminates TLS before forwarding requests to Laravel.
+        // Force generated asset, route, and form URLs to use HTTPS.
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+
         View::composer('frontend.layouts.master', function ($view) {
             $settings = [
                 'site_logo' => 'frontend/assets/images/logo1.png',
