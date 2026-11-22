@@ -35,7 +35,7 @@
                                                     <li class="list-inline-item">
                                                         <span>
 
-                                                            {{ date('M d, Y', strtotime($slider->created_at)) }}
+                                                            {{ banglaDate($slider->created_at) }}
                                                         </span>
                                                     </li>
                                                 </ul>
@@ -75,12 +75,12 @@
                                         <ul class="list-inline">
                                             <li class="list-inline-item">
                                                 <a href="javascript:;">
-                                                    by {{ $slider->auther->name }}
+                                                    {{ __('frontend.by') }} {{ $slider->auther->name }}
                                                 </a>
                                             </li>
                                             <li class="list-inline-item">
                                                 <span>
-                                                    {{ date('M d, Y', strtotime($slider->created_at)) }}
+                                                    {{ banglaDate($slider->created_at) }}
                                                 </span>
                                             </li>
                                         </ul>
