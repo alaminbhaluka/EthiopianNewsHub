@@ -59,6 +59,13 @@
                                     <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
+                                <div class="form-group col-12">
+                                    <label>মোবাইল নম্বর</label>
+                                    <input type="tel" class="form-control" value="{{ old('phone', $user->phone) }}" name="phone" placeholder="01XXXXXXXXX">
+                                    @error('phone')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="card-footer text-right">
                                 <button class="btn btn-primary">{{ __('admin.Save Changes') }}</button>
