@@ -1,29 +1,31 @@
 <?php
 
-use App\Http\Controllers\Admin\AboutController;
-use App\Http\Controllers\Admin\AdController;
-use App\Http\Controllers\Admin\AdminAuthenticationController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ContactController;
-use App\Http\Controllers\Admin\ContactMessageController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\FooterGridOneController;
-use App\Http\Controllers\Admin\FooterGridThreeController;
-use App\Http\Controllers\Admin\FooterGridTwoController;
-use App\Http\Controllers\Admin\FooterInfoController;
-use App\Http\Controllers\Admin\LanguageController;
-use App\Http\Controllers\Admin\LocalizationController;
-use App\Http\Controllers\Admin\NewsController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\SocialCountController;
-use App\Http\Controllers\Admin\SocialLinkController;
-use App\Http\Controllers\Admin\SubscriberController;
-use App\Http\Controllers\Admin\TribuneNewsController;
-use App\Models\FooterGridOne;
-use App\Models\Setting;
-use Illuminate\Support\Facades\Route;
+use App\\Http\\Controllers\\Admin\\AboutController;
+use App\\Http\\Controllers\\Admin\\AdController;
+use App\\Http\\Controllers\\Admin\\AdminAuthenticationController;
+use App\\Http\\Controllers\\Admin\\CategoryController;
+use App\\Http\\Controllers\\Admin\\ContactController;
+use App\\Http\\Controllers\\Admin\\ContactMessageController;
+use App\\Http\\Controllers\\Admin\\DashboardController;
+use App\\Http\\Controllers\\Admin\\FooterGridOneController;
+use App\\Http\\Controllers\\Admin\\FooterGridThreeController;
+use App\\Http\\Controllers\\Admin\\FooterGridTwoController;
+use App\\Http\\Controllers\\Admin\\FooterInfoController;
+use App\\Http\\Controllers\\Admin\\LanguageController;
+use App\\Http\\Controllers\\Admin\\LocalizationController;
+use App\\Http\\Controllers\\Admin\\NewsController;
+use App\\Http\\Controllers\\Admin\\ProfileController;
+use App\\Http\\Controllers\\Admin\\SettingController;
+use App\\Http\\Controllers\\Admin\\SocialCountController;
+use App\\Http\\Controllers\\Admin\\SocialLinkController;
+use App\\Http\\Controllers\\Admin\\SubscriberController;
+use App\\Http\\Controllers\\Admin\\TribuneNewsController;
+use App\\Models\\FooterGridOne;
+use App\\Models\\Setting;
+use Illuminate\\Support\\Facades\\Route;
 
+// Keep the familiar /admin entry point and send it to the login screen.
+Route::redirect('/admin', '/admin/login');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
@@ -37,7 +39,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     Route::get('reset-password/{token}', [AdminAuthenticationController::class, 'resetPassword'])->name('reset-password');
     Route::post('reset-password', [AdminAuthenticationController::class, 'handleResetPassword'])->name('reset-password.send');
-
 
 });
 
@@ -104,7 +105,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     /** Settings Routes */
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-    /** Settings Routes */
     Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general-setting.update');
     Route::put('seo-setting', [SettingController::class, 'updateSeoSetting'])->name('seo-setting.update');
     Route::put('appearance-setting', [SettingController::class, 'updateAppearanceSetting'])->name('appearance-setting.update');
@@ -113,14 +113,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     /** Localization Routes */
     Route::get('admin-localization', [LocalizationController::class, 'adminIndex'])->name('admin-localization.index');
     Route::get('frontend-localization', [LocalizationController::class, 'frontnedIndex'])->name('frontend-localization.index');
-
     Route::post('extract-localize-string', [LocalizationController::class, 'extractLocalizationStrings'])->name('extract-localize-string');
-
     Route::post('update-lang-string', [LocalizationController::class, 'updateLangString'])->name('update-lang-string');
-
-
     Route::post('translate-string', [LocalizationController::class, 'translateString'])->name('translate-string');
-
 });
-
-
