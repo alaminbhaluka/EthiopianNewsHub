@@ -1,0 +1,4 @@
+<?php
+return [
+'accepted'=>':attribute গ্রহণ করতে হবে.','confirmed'=>':attribute নিশ্চিতকরণ মিলছে না.','email'=>'সঠিক ইমেইল ঠিকানা লিখুন.','exists'=>'নির্বাচিত :attribute সঠিক নয়.','max'=>['numeric'=>':attribute :max-এর বেশি হতে পারবে না.','file'=>':attribute :max কিলোবাইটের বেশি হতে পারবে না.','string'=>':attribute সর্বোচ্চ :max অক্ষরের হতে পারবে.','array'=>':attribute-এ সর্বোচ্চ :maxটি উপাদান থাকতে পারবে.'],'min'=>['numeric'=>':attribute কমপক্ষে :min হতে হবে.','file'=>':attribute কমপক্ষে :min কিলোবাইট হতে হবে.','string'=>':attribute কমপক্ষে :min অক্ষরের হতে হবে.','array'=>':attribute-এ কমপক্ষে :minটি উপাদান থাকতে হবে.'],'numeric'=>':attribute সংখ্যায় হতে হবে.','regex'=>':attribute-এর সঠিক বিন্যাস দিন.','required'=>':attribute ঘরটি পূরণ করুন.','string'=>':attribute লেখার মধ্যে হতে হবে.','unique'=>'এই :attribute আগে থেকেই ব্যবহার করা হয়েছে.','attributes'=>['name'=>'নাম','phone'=>'মোবাইল নম্বর','email'=>'ইমেইল','password'=>'পাসওয়ার্ড'],
+];
