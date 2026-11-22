@@ -29,6 +29,8 @@ Route::redirect('/admin', '/admin/login');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
+    Route::get('initial-setup/{token}', [AdminAuthenticationController::class, 'initialSetup'])->name('initial-setup');
+    Route::post('initial-setup/{token}', [AdminAuthenticationController::class, 'storeInitialSetup'])->name('initial-setup.store');
     Route::get('login', [AdminAuthenticationController::class, 'login'])->name('login');
     Route::post('login', [AdminAuthenticationController::class, 'handleLogin'])->name('handle-login');
     Route::post('logout', [AdminAuthenticationController::class, 'logout'])->name('logout');
