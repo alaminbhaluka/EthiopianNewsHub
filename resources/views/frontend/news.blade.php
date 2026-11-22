@@ -28,7 +28,7 @@
                     <form action="{{ route('news') }}" method="GET">
                         <div class="row">
                             <div class="col-lg-5">
-                                <input type="text" placeholder="Type here" value="{{ request()->search }}" name="search">
+                                <input type="text" placeholder="এখানে লিখুন" value="{{ request()->search }}" name="search">
                             </div>
                             <div class="col-lg-4">
                                 <select name="category">
@@ -74,7 +74,7 @@
                                         </li>
                                         <li class="list-inline-item">
                                             <span class="text-dark text-capitalize">
-                                                {{ date('M d, Y', strtotime($post->created_at)) }}
+                                                {{ banglaDate($post->created_at) }}
                                             </span>
                                         </li>
 
@@ -135,7 +135,7 @@
                                                     </li>
                                                     <li class="list-inline-item">
                                                         <span class="text-dark text-capitalize">
-                                                            {{ date('M d, Y', strtotime($news->created_at)) }}
+                                                            {{ banglaDate($news->created_at) }}
                                                         </span>
                                                     </li>
 
@@ -175,7 +175,7 @@
                                         </li>
                                         <li class="list-inline-item">
                                             <span class="text-dark text-capitalize">
-                                                {{ date('M d, Y', strtotime($news->created_at)) }}
+                                                {{ banglaDate($news->created_at) }}
                                             </span>
                                         </li>
 
@@ -223,7 +223,7 @@
                             <p><small>{{ __('frontend.Get magzrenvi daily newsletter on your inbox') }}.</small></p>
                             <form action="" class="newsletter-form">
                                 <div class="input-group ">
-                                    <input type="text" class="form-control" name="email" placeholder="Your email address">
+                                    <input type="text" class="form-control" name="email" placeholder="আপনার ইমেইল ঠিকানা">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary newsletter-button" type="submit">{{ __('frontend.sign up') }}</button>
                                     </div>
