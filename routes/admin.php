@@ -1,28 +1,28 @@
 <?php
 
-use App\\Http\\Controllers\\Admin\\AboutController;
-use App\\Http\\Controllers\\Admin\\AdController;
-use App\\Http\\Controllers\\Admin\\AdminAuthenticationController;
-use App\\Http\\Controllers\\Admin\\CategoryController;
-use App\\Http\\Controllers\\Admin\\ContactController;
-use App\\Http\\Controllers\\Admin\\ContactMessageController;
-use App\\Http\\Controllers\\Admin\\DashboardController;
-use App\\Http\\Controllers\\Admin\\FooterGridOneController;
-use App\\Http\\Controllers\\Admin\\FooterGridThreeController;
-use App\\Http\\Controllers\\Admin\\FooterGridTwoController;
-use App\\Http\\Controllers\\Admin\\FooterInfoController;
-use App\\Http\\Controllers\\Admin\\LanguageController;
-use App\\Http\\Controllers\\Admin\\LocalizationController;
-use App\\Http\\Controllers\\Admin\\NewsController;
-use App\\Http\\Controllers\\Admin\\ProfileController;
-use App\\Http\\Controllers\\Admin\\SettingController;
-use App\\Http\\Controllers\\Admin\\SocialCountController;
-use App\\Http\\Controllers\\Admin\\SocialLinkController;
-use App\\Http\\Controllers\\Admin\\SubscriberController;
-use App\\Http\\Controllers\\Admin\\TribuneNewsController;
-use App\\Models\\FooterGridOne;
-use App\\Models\\Setting;
-use Illuminate\\Support\\Facades\\Route;
+use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\AdController;
+use App\Http\Controllers\Admin\AdminAuthenticationController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\ContactMessageController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FooterGridOneController;
+use App\Http\Controllers\Admin\FooterGridThreeController;
+use App\Http\Controllers\Admin\FooterGridTwoController;
+use App\Http\Controllers\Admin\FooterInfoController;
+use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\LocalizationController;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SocialCountController;
+use App\Http\Controllers\Admin\SocialLinkController;
+use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\TribuneNewsController;
+use App\Models\FooterGridOne;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Route;
 
 // Keep the familiar /admin entry point and send it to the login screen.
 Route::redirect('/admin', '/admin/login');
