@@ -51,9 +51,10 @@
                 <div class="offcanvas-header">
                     <div data-toggle="modal" data-target="#modal_aside_right" class="btn-md"><span class="navbar-toggler-icon"></span></div>
                 </div>
-                <figure class="mb-0 mx-auto">
-                    <a href="{{ url('/') }}">
-                        <span class="d-inline-flex align-items-center"><img src="{{ asset('assets/tribune-mark.svg') }}" alt="" class="img-fluid" style="height:58px;width:58px;object-fit:contain;"><img src="{{ asset('assets/tribune-wordmark.svg') }}" alt="ট্রিবিউন বাংলা" class="img-fluid" style="height:58px;width:205px;object-fit:contain;margin-left:8px;"></span>
+                <figure class="mb-0 mr-lg-3 flex-shrink-0">
+                    <a href="{{ url('/') }}" class="d-inline-flex align-items-center">
+                        <img src="{{ asset('assets/tribune-mark.png') }}" alt="ট্রিবিউন বাংলা" class="img-fluid" style="height:48px;width:48px;object-fit:contain;">
+                        <img src="{{ asset('assets/tribune-wordmark.svg') }}" alt="ট্রিবিউন বাংলা" class="img-fluid" style="height:48px;width:170px;object-fit:contain;margin-left:7px;">
                     </a>
                 </figure>
                 <div class="collapse navbar-collapse justify-content-between" id="main_nav99">
