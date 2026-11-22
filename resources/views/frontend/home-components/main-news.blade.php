@@ -37,7 +37,7 @@
                                                 <li class="list-inline-item">
                                                     <span>
 
-                                                        {{ date('M d, Y', strtotime($news->created_at)) }}
+                                                        {{ banglaDate($news->created_at) }}
                                                     </span>
                                                 </li>
                                             </ul>
@@ -78,7 +78,7 @@
                                                         </li>
                                                         <li class="list-inline-item">
                                                             <span class="text-dark text-capitalize">
-                                                                {{ date('M d, Y', strtotime($news->created_at)) }}
+                                                                {{ banglaDate($news->created_at) }}
                                                             </span>
                                                         </li>
 
@@ -125,7 +125,7 @@
                                                         </li>
                                                         <li class="list-inline-item">
                                                             <span class="text-dark text-capitalize">
-                                                                {{ date('M d, Y', strtotime($news->created_at)) }}
+                                                                {{ banglaDate($news->created_at) }}
                                                             </span>
                                                         </li>
 
