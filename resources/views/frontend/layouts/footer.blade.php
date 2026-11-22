@@ -4,7 +4,7 @@
             <div class="row align-items-center">
                 <div class="col-md-7 text-center text-md-left mb-3 mb-md-0">
                     <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                        @if (!empty($settings['site_logo']) && \\Illuminate\\Support\\Str::startsWith($settings['site_logo'], 'data:image/'))
+                        @if (!empty($settings['site_logo']) && \Illuminate\Support\Str::startsWith($settings['site_logo'], 'data:image/'))
                             <img src="{{ $settings['site_logo'] }}" alt="ট্রিবিউন বাংলা" style="max-width:220px;max-height:52px;width:auto;object-fit:contain;">
                         @else
                             <img src="{{ asset('assets/tribune-mark.svg') }}" alt="ট্রিবিউন বাংলা" style="width:48px;height:48px;object-fit:contain;flex:0 0 48px;">
