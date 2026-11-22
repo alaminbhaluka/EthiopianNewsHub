@@ -8,7 +8,7 @@ COPY . .
 RUN npm run production
 
 FROM dunglas/frankenphp:1-php8.2-bookworm
-RUN install-php-extensions pdo_mysql bcmath gd intl zip exif opcache
+RUN install-php-extensions pdo_mysql pdo_pgsql bcmath gd intl zip exif opcache
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
