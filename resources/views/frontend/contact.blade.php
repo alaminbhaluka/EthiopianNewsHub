@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <h5>{{ __('frontend.contact us') }}</h5>
-                    <form action="{{ route('contact.submit') }}" method="POST">
+                    <form action="{{ route('contact.send') }}" method="POST">
                         @csrf
                         <div class="row">
 
