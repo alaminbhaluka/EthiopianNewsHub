@@ -104,3 +104,17 @@ function toast(string $message, string $type = 'success')
 
     return new \App\Support\Toast();
 }
+
+
+/** Format dates using Bengali locale for the public website. */
+function banglaDate($date, string $pattern = 'd MMMM yyyy'): string
+{
+    try {
+        $timestamp = $date instanceof \DateTimeInterface ? $date->getTimestamp() : strtotime((string) $date);
+        $formatter = new \IntlDateFormatter('bn_BD', \IntlDateFormatter::LONG, \IntlDateFormatter::NONE, 'Asia/Dhaka', \IntlDateFormatter::GREGORIAN, $pattern);
+        $formatted = $formatter->format($timestamp);
+        return $formatted ?: date('d-m-Y', $timestamp);
+    } catch (\Throwable $exception) {
+        return date('d-m-Y', strtotime((string) $date));
+    }
+}
