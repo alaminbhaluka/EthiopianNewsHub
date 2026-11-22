@@ -53,7 +53,7 @@
                 </div>
                 <figure class="mb-0 mr-lg-3 flex-shrink-0">
                     <a href="{{ url('/') }}" class="d-inline-flex align-items-center">
-                        @if (!empty($settings['site_logo']) && \\Illuminate\\Support\\Str::startsWith($settings['site_logo'], 'data:image/'))
+                        @if (!empty($settings['site_logo']) && \Illuminate\Support\Str::startsWith($settings['site_logo'], 'data:image/'))
                             <img src="{{ $settings['site_logo'] }}" alt="ট্রিবিউন বাংলা" class="img-fluid" style="max-height:52px;max-width:220px;width:auto;object-fit:contain;">
                         @else
                             <img src="{{ asset('assets/tribune-mark.svg') }}" alt="ট্রিবিউন বাংলা" class="img-fluid" style="height:48px;width:48px;object-fit:contain;">
