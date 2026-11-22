@@ -118,7 +118,7 @@
                                     <div class="row no-gutters mt-3">
                                         <div class="col">
                                             <input class="form-control border-secondary border-right-0 rounded-0"
-                                                type="search" value="" placeholder="Search "
+                                                type="search" value="" placeholder="খুঁজুন"
                                                 id="example-search-input4" name="search">
                                         </div>
                                         <div class="col-auto">
@@ -148,7 +148,7 @@
                             <div class="row no-gutters">
                                 <div class="col">
                                     <input class="form-control border-secondary border-right-0 rounded-0" value=""
-                                        placeholder="Search" type="search" name="search">
+                                        placeholder="খুঁজুন" type="search" name="search">
                                 </div>
                                 <div class="col-auto">
                                     <button type="submit" class="btn btn-outline-secondary border-left-0 rounded-0 rounded-right">
@@ -174,7 +174,7 @@
                             @if (count($categories) > 0)
                             <li class="nav-item">
                                 <a class="nav-link active dropdown-toggle  text-dark" href="#"
-                                    data-toggle="dropdown">More </a>
+                                    data-toggle="dropdown">{{ __('frontend.More') }} </a>
                                 <ul class="dropdown-menu dropdown-menu-left">
                                     @foreach ($categories as $category)
                                     <li><a class="dropdown-item" href="{{ route('news', ['category' => $category->slug]) }}">{{ $category->name }}</a></li>
