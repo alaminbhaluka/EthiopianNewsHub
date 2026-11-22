@@ -6,7 +6,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('admin.dashboard') }}">TribuneBangla</a>
+            <a href="{{ route('admin.dashboard') }}" aria-label="TribuneBangla Dashboard"><img src="{{ asset('frontend/assets/images/logo1.png') }}" alt="TribuneBangla" style="max-width:150px;max-height:52px;object-fit:contain;"></a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="{{ route('admin.dashboard') }}">TB</a>
