@@ -4,8 +4,12 @@
             <div class="row align-items-center">
                 <div class="col-md-7 text-center text-md-left mb-3 mb-md-0">
                     <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                        <img src="{{ asset('assets/tribune-mark.svg') }}" alt="" style="width:48px;height:48px;object-fit:contain;flex:0 0 48px;">
-                        <img src="{{ asset('assets/tribune-wordmark.svg') }}" alt="ট্রিবিউন বাংলা" style="width:170px;height:48px;object-fit:contain;margin-left:7px;">
+                        @if (!empty($settings['site_logo']) && \\Illuminate\\Support\\Str::startsWith($settings['site_logo'], 'data:image/'))
+                            <img src="{{ $settings['site_logo'] }}" alt="ট্রিবিউন বাংলা" style="max-width:220px;max-height:52px;width:auto;object-fit:contain;">
+                        @else
+                            <img src="{{ asset('assets/tribune-mark.svg') }}" alt="ট্রিবিউন বাংলা" style="width:48px;height:48px;object-fit:contain;flex:0 0 48px;">
+                            <img src="{{ asset('assets/tribune-wordmark.svg') }}" alt="ট্রিবিউন বাংলা" style="width:170px;height:48px;object-fit:contain;margin-left:7px;">
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-5 text-center text-md-right">
