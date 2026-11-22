@@ -53,7 +53,7 @@
                 </div>
                 <figure class="mb-0 mx-auto">
                     <a href="{{ url('/') }}">
-                        <img src="{{ asset('assets/tribune-mark.svg') }}" alt="ট্রিবিউন বাংলা" class="img-fluid logo" style="height:68px;width:68px;max-width:100%;object-fit:contain;">
+                        <span class="d-inline-flex align-items-center"><img src="{{ asset('assets/tribune-mark.svg') }}" alt="" class="img-fluid" style="height:58px;width:58px;object-fit:contain;"><img src="{{ asset('assets/tribune-wordmark.svg') }}" alt="ট্রিবিউন বাংলা" class="img-fluid" style="height:58px;width:205px;object-fit:contain;margin-left:8px;"></span>
                     </a>
                 </figure>
                 <div class="collapse navbar-collapse justify-content-between" id="main_nav99">
