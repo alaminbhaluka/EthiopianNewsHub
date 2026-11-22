@@ -22,17 +22,29 @@ class AdminAuthenticationController extends Controller
 
     public function handleLogin(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
+        $validated = $request->validate([
+            'login' => ['required', 'string', 'max:190'],
             'password' => ['required', 'string'],
+        ], [
+            'login.required' => 'ইমেইল অথবা মোবাইল নম্বর লিখুন।',
+            'password.required' => 'পাসওয়ার্ড লিখুন।',
         ]);
 
-        $credentials['status'] = 1;
+        $login = trim($validated['login']);
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+            $credentials = ['email' => $login, 'password' => $validated['password'], 'status' => 1];
+        } else {
+            $digits = preg_replace('/\D+/', '', $login);
+            if (str_starts_with($digits, '880') && strlen($digits) === 13) {
+                $digits = '0' . substr($digits, 3);
+            }
+            $credentials = ['phone' => $digits, 'password' => $validated['password'], 'status' => 1];
+        }
 
         if (!Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
             return back()->withErrors([
-                'email' => 'ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।',
-            ])->onlyInput('email');
+                'login' => 'ইমেইল/মোবাইল নম্বর অথবা পাসওয়ার্ড সঠিক নয়।',
+            ])->onlyInput('login');
         }
 
         $request->session()->regenerate();
