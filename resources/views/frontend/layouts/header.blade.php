@@ -22,7 +22,7 @@
                         </ul>
                         <div class="topbar-text">
 
-                            {{ date('l, F j, Y') }}
+                            {{ banglaDate(now(), 'EEEE, d MMMM yyyy') }}
                         </div>
                     </div>
                 </div>
