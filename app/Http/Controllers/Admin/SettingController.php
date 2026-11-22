@@ -1,10 +1,10 @@
 <?php
 
-namespace App\\Http\\Controllers\\Admin;
+namespace App\Http\Controllers\Admin;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Models\\Setting;
-use Illuminate\\Http\\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
@@ -24,7 +24,7 @@ class SettingController extends Controller
 
         try {
             $settings = array_merge($settings, Setting::pluck('value', 'key')->toArray());
-        } catch (\\Throwable $exception) {
+        } catch (\Throwable $exception) {
             report($exception);
         }
 
