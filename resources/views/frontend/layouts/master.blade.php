@@ -17,7 +17,7 @@
     <meta name="twitter:image" content="@yield('meta_tw_image')" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ asset($settings['site_favicon']) }}" type="image/png">
+    <link rel="icon" href="{{ asset(!empty($settings['site_favicon']) ? $settings['site_favicon'] : 'frontend/assets/images/logo1.png') }}" type="image/png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link href="{{ asset('frontend/assets/css/styles.css') }}" rel="stylesheet">
     <style>
