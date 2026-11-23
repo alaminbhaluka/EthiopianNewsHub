@@ -21,6 +21,8 @@ COPY --from=assets /app/public /app/public
 RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views bootstrap/cache \
     && composer dump-autoload --no-dev --optimize --no-scripts \
     && php artisan package:discover --ansi \
+    && find app routes config database -type f -name '*.php' -print0 | xargs -0 -n1 php -l >/tmp/php-lint.log \
+    && php artisan route:list --except-vendor >/tmp/laravel-routes.log \
     && chmod +x /app/start.sh \
     && chown -R www-data:www-data storage bootstrap/cache
 
