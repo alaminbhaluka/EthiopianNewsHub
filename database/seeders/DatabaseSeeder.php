@@ -44,15 +44,25 @@ class DatabaseSeeder extends Seeder
         }
 
         $email = env('ADMIN_EMAIL');
+        $phone = env('ADMIN_PHONE');
         $password = env('ADMIN_PASSWORD');
 
-        if (!$email || !$password || Admin::where('email', $email)->exists()) {
+        if (!$password || (!$email && !$phone)) {
             return;
         }
 
-        $admin = new Admin();
+        $admin = Admin::query()
+            ->when($email, fn ($query) => $query->orWhere('email', $email))
+            ->when($phone, fn ($query) => $query->orWhere('phone', preg_replace('/\\D+/', '', $phone)))
+            ->first();
+
+        if (!$admin) {
+            $admin = new Admin();
+        }
+
         $admin->name = env('ADMIN_NAME', 'TribuneBangla Administrator');
-        $admin->email = $email;
+        if ($email) $admin->email = $email;
+        if ($phone) $admin->phone = preg_replace('/\\D+/', '', $phone);
         $admin->password = Hash::make($password);
         $admin->image = 'frontend/assets/images/logo1.png';
         $admin->status = 1;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="bn">
 
 <head>
     <meta charset="utf-8">
@@ -17,7 +17,7 @@
     <meta name="twitter:image" content="@yield('meta_tw_image')" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ asset($settings['site_favicon']) }}" type="image/png">
+    <link rel="icon" href="{{ \Illuminate\Support\Str::startsWith($settings['site_favicon'] ?? '', 'data:image/') ? $settings['site_favicon'] : asset($settings['site_favicon'] ?? 'frontend/assets/images/logo1.png') }}" type="image/png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link href="{{ asset('frontend/assets/css/styles.css') }}" rel="stylesheet">
     <style>
@@ -33,7 +33,7 @@
     @php
         $socialLinks = collect();
         $footerInfo = (object) [
-            'logo' => 'frontend/assets/images/logo1.png',
+            'logo' => 'assets/tribune-mark.svg',
             'description' => 'সত্য ও ন্যায়ের পক্ষে, মানুষের কথা তুলে ধরাই আমাদের অঙ্গীকার।',
             'copyright' => '© ' . date('Y') . ' TribuneBangla.com. সর্বস্বত্ব সংরক্ষিত।',
         ];

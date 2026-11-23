@@ -1,0 +1,32 @@
+# Vercel Container Runtime for the TribuneBangla Laravel application.
+# PHP 8.2 is used for compatibility with the Laravel 8 dependency set.
+FROM node:18-bookworm-slim AS assets
+WORKDIR /app
+COPY package.json ./
+RUN npm install --no-audit --no-fund
+COPY . .
+RUN npm run production
+
+FROM dunglas/frankenphp:1-php8.2-bookworm
+RUN install-php-extensions pdo_mysql pdo_pgsql bcmath gd intl zip exif opcache
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-interaction --prefer-dist --no-scripts --optimize-autoloader
+
+COPY . .
+COPY --from=assets /app/public /app/public
+
+RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views bootstrap/cache \
+    && composer dump-autoload --no-dev --optimize --no-scripts \
+    && php artisan package:discover --ansi \
+    && find app routes config database -type f -name '*.php' -print0 | xargs -0 -n1 php -l \
+    && php artisan route:list \
+    && chmod +x /app/start.sh \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+COPY Caddyfile /etc/caddy/Caddyfile
+
+EXPOSE 80
+CMD ["/app/start.sh"]

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 170" role="img" aria-labelledby="title">
+  <title id="title">ট্রিবিউন বাংলা</title>
+  <defs>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff343f"/><stop offset=".55" stop-color="#e20d20"/><stop offset="1" stop-color="#970b19"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f7c65f"/><stop offset=".5" stop-color="#fff0ad"/><stop offset="1" stop-color="#d99b2b"/></linearGradient>
+    <filter id="shine" x="-10%" y="-30%" width="120%" height="170%"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <path d="M32 45 Q220 -15 385 32 Q490 62 594 25 Q520 94 385 63 Q205 22 32 67Z" fill="url(#red)" opacity=".95"/>
+  <text x="18" y="133" font-family="'Hind Siliguri','Noto Sans Bengali',sans-serif" font-size="112" font-weight="700" letter-spacing="-3" fill="#202124">ট্রিবিউন</text>
+  <text x="365" y="133" font-family="'Hind Siliguri','Noto Sans Bengali',sans-serif" font-size="112" font-weight="700" letter-spacing="-3" fill="url(#red)">বাংলা</text>
+  <path d="M25 150 Q160 158 300 148 T590 150" fill="none" stroke="url(#gold)" stroke-width="7" stroke-linecap="round" filter="url(#shine)"/>
+</svg>

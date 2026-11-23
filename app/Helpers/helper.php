@@ -104,3 +104,39 @@ function toast(string $message, string $type = 'success')
 
     return new \App\Support\Toast();
 }
+
+
+/** Format date and numerals in Bengali for the public website. */
+function banglaDate($date, string $pattern = 'd MMMM yyyy'): string
+{
+    try {
+        $timestamp = $date instanceof \DateTimeInterface
+            ? $date->getTimestamp()
+            : strtotime((string) $date);
+        if (!$timestamp) {
+            return '';
+        }
+        $formatter = new \IntlDateFormatter(
+            'bn_BD',
+            \IntlDateFormatter::LONG,
+            \IntlDateFormatter::NONE,
+            'Asia/Dhaka',
+            \IntlDateFormatter::GREGORIAN,
+            $pattern
+        );
+        $formatted = $formatter->format($timestamp);
+        if (!$formatted) {
+            $formatted = date('d-m-Y', $timestamp);
+        }
+        return strtr($formatted, [
+            '0'=>'০','1'=>'১','2'=>'২','3'=>'৩','4'=>'৪',
+            '5'=>'৫','6'=>'৬','7'=>'৭','8'=>'৮','9'=>'৯',
+        ]);
+    } catch (\Throwable $exception) {
+        $timestamp = strtotime((string) $date);
+        return $timestamp ? strtr(date('d-m-Y', $timestamp), [
+            '0'=>'০','1'=>'১','2'=>'২','3'=>'৩','4'=>'৪',
+            '5'=>'৫','6'=>'৬','7'=>'৭','8'=>'৮','9'=>'৯',
+        ]) : '';
+    }
+}

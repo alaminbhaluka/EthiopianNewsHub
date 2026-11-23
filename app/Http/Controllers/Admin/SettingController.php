@@ -40,17 +40,25 @@ class SettingController extends Controller
     {
         $request->validate([
             'site_name' => ['required', 'string', 'max:150'],
-            'site_logo' => ['nullable', 'image', 'max:5120'],
+            'site_logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:2048'],
             'site_favicon' => ['nullable', 'image', 'max:2048'],
         ]);
 
         $this->saveSetting('site_name', $request->site_name);
 
-        foreach (['site_logo', 'site_favicon'] as $field) {
-            if ($request->hasFile($field)) {
-                $path = $request->file($field)->store('uploads/settings', 'public');
-                $this->saveSetting($field, 'storage/' . $path);
-            }
+        // Keep the logo in the database as a data URI so it remains available
+        // across serverless deployments where local uploads are not persistent.
+        if ($request->hasFile('site_logo')) {
+            $logo = $request->file('site_logo');
+            $mime = $logo->getMimeType();
+            $encodedLogo = 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($logo->getRealPath()));
+            $this->saveSetting('site_logo', $encodedLogo);
+        }
+
+        // Preserve the existing favicon upload behavior.
+        if ($request->hasFile('site_favicon')) {
+            $path = $request->file('site_favicon')->store('uploads/settings', 'public');
+            $this->saveSetting('site_favicon', 'storage/' . $path);
         }
 
         return back()->with('success', 'সাধারণ সেটিংস সংরক্ষণ করা হয়েছে।');

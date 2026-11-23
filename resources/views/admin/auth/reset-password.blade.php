@@ -1,113 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Login &mdash; Stisla</title>
-
-  <!-- General CSS Files -->
-  <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('admin/assets/modules/fontawesome/css/all.min.css') }}">
-
-  <!-- CSS Libraries -->
-  <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-social/bootstrap-social.css') }}">
-
-  <!-- Template CSS -->
-  <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css') }}">
-<!-- Start GA -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-94034622-3');
-</script>
-<!-- /END GA --></head>
-
-<body>
-  <div id="app">
-    <section class="section">
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-            <div class="login-brand">
-              <img src="assets/img/stisla-fill.svg" alt="logo" width="100" class="shadow-light rounded-circle">
-            </div>
-
-            <div class="card card-primary">
-              <div class="card-header"><h4>{{ __('admin.Reset Password') }}</h4></div>
-
-              <div class="card-body">
-                <form method="POST" action="{{ route('admin.reset-password.send') }}" class="needs-validation" novalidate="">
-                    @csrf
-                  <div class="form-group">
-                    <label for="email">{{ __('admin.Email') }}</label>
-                    <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus value="{{ @request()->email }}">
-                    <input id="email" type="hidden" class="form-control" name="token" tabindex="1" required autofocus value="{{ $token }}">
-                    @error('email')
-                        <code>{{ $message }}</code>
-                    @enderror
-                    <div class="invalid-feedback">
-                      {{ __('admin.Please fill in your email') }}
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="password">{{ __('admin.Password') }}</label>
-                    <input id="password" type="password" class="form-control" name="password" tabindex="1" required autofocus>
-                    @error('password')
-                        <code>{{ $message }}</code>
-                    @enderror
-                    <div class="invalid-feedback">
-                      {{ __('admin.Please fill in your password') }}
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="password">{{ __('admin.Confirmation Password') }}</label>
-                    <input id="password" type="password" class="form-control" name="password_confirmation" tabindex="1" required autofocus>
-                    <div class="invalid-feedback">
-                      {{ __('admin.Please fill in your confirmation password') }}
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                      {{ __('admin.Save') }}
-                    </button>
-                  </div>
-                </form>
-
-
-              </div>
-            </div>
-
-            <div class="simple-footer">
-              {{ __('admin.Copyright') }} &copy; {{ __('admin.WebSolutionUs 2023') }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- General JS Scripts -->
-  <script src="{{ asset('admin/assets/modules/jquery.min.js') }}"></script>
-  <script src="{{ asset('admin/assets/modules/popper.js') }}"></script>
-  <script src="{{ asset('admin/assets/modules/tooltip.js') }}"></script>
-  <script src="{{ asset('admin/assets/modules/bootstrap/js/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('admin/assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
-  <script src="{{ asset('admin/assets/modules/moment.min.js') }}"></script>
-  <script src="{{ asset('admin/assets/js/stisla.js') }}"></script>
-
-  <!-- JS Libraies -->
-
-  <!-- Page Specific JS File -->
-
-  <!-- Template JS File -->
-  <script src="{{ asset('admin/assets/js/scripts.js') }}"></script>
-  <script src="{{ asset('admin/assets/js/custom.js') }}"></script>
-</body>
-</html>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light">
+<title>নতুন পাসওয়ার্ড | TribuneBangla</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:22px 14px;display:grid;place-items:center;background:linear-gradient(135deg,#071b33,#123d61 55%,#0a263f);font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif;color:#172b42}.card{width:100%;max-width:470px;background:#fff;border-radius:20px;padding:38px;box-shadow:0 24px 70px #0004}.brand{font-size:21px;font-weight:900;color:#102a43;margin-bottom:30px}.brand span{color:#d93435}.eyebrow{font-size:12px;font-weight:800;color:#d93435;letter-spacing:1px}h1{font-size:27px;margin:8px 0;color:#102a43}.sub{color:#718096;font-size:14px;line-height:1.8;margin:0 0 25px}label{display:block;font-size:14px;font-weight:700;margin:0 0 8px}.field{margin-bottom:17px}input{width:100%;height:50px;border:1px solid #d8e0e8;border-radius:10px;padding:0 14px;font-size:15px}input:focus{outline:3px solid #1e668e22;border-color:#1e668e}.btn{width:100%;height:50px;border:0;border-radius:10px;background:linear-gradient(100deg,#df3935,#b9222d);color:#fff;font-size:15px;font-weight:800;cursor:pointer}.error{font-size:13px;color:#c62828;margin-top:6px}.back{display:block;text-align:center;margin-top:22px;color:#1b5d83;text-decoration:none;font-size:14px;font-weight:700}.foot{text-align:center;color:#8793a1;font-size:12px;margin-top:25px}@media(max-width:480px){.card{padding:28px 22px}}
+</style></head><body>
+<main class="card"><div class="brand">Tribune<span>Bangla</span></div><div class="eyebrow">অ্যাকাউন্ট নিরাপত্তা</div><h1>নতুন পাসওয়ার্ড নির্ধারণ</h1><p class="sub">আপনার অ্যাকাউন্টের জন্য নতুন পাসওয়ার্ড লিখুন।</p>
+<form method="POST" action="{{ route('admin.reset-password.send') }}">@csrf
+<input type="hidden" name="token" value="{{ $token }}">
+<div class="field"><label for="email">ইমেইল ঠিকানা</label><input id="email" type="email" name="email" value="{{ old('email', request()->email) }}" placeholder="name@example.com" autocomplete="email" required>@error('email')<div class="error">{{ $message }}</div>@enderror</div>
+<div class="field"><label for="password">নতুন পাসওয়ার্ড</label><input id="password" type="password" name="password" autocomplete="new-password" required>@error('password')<div class="error">{{ $message }}</div>@enderror</div>
+<div class="field"><label for="password_confirmation">পাসওয়ার্ড নিশ্চিত করুন</label><input id="password_confirmation" type="password" name="password_confirmation" autocomplete="new-password" required></div>
+<button class="btn" type="submit">পাসওয়ার্ড পরিবর্তন করুন</button></form>
+<a class="back" href="{{ route('admin.login') }}">← অ্যাডমিন লগইনে ফিরে যান</a><div class="foot">© {{ date('Y') }} TribuneBangla · সর্বস্বত্ব সংরক্ষিত</div></main></body></html>
