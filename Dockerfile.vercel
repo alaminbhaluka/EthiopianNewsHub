@@ -22,7 +22,7 @@ RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/fra
     && composer dump-autoload --no-dev --optimize --no-scripts \
     && php artisan package:discover --ansi \
     && find app routes config database -type f -name '*.php' -print0 | xargs -0 -n1 php -l \
-    && php artisan route:list --except-vendor \
+    && php artisan route:list \
     && chmod +x /app/start.sh \
     && chown -R www-data:www-data storage bootstrap/cache
 
