@@ -21,9 +21,10 @@ COPY --from=assets /app/public /app/public
 RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views bootstrap/cache \
     && composer dump-autoload --no-dev --optimize --no-scripts \
     && php artisan package:discover --ansi \
+    && chmod +x /app/start.sh \
     && chown -R www-data:www-data storage bootstrap/cache
 
 COPY Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 80
-CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+CMD ["/app/start.sh"]
