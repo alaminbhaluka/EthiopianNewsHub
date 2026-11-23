@@ -3,10 +3,10 @@
 require __DIR__ . '/vendor/autoload.php';
 
 $app = require __DIR__ . '/bootstrap/app.php';
-$kernel = $app->make(Illuminate\\Contracts\\Console\\Kernel::class);
+$kernel = $app->make(\Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
-$connection = Illuminate\\Support\\Facades\\DB::connection();
+$connection = \Illuminate\Support\Facades\DB::connection();
 $usesPostgresLock = $connection->getDriverName() === 'pgsql';
 $lockKey = 5720261123;
 
@@ -15,12 +15,12 @@ if ($usesPostgresLock) {
 }
 
 try {
-    $exitCode = Illuminate\\Support\\Facades\\Artisan::call('migrate', [
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('migrate', [
         '--force' => true,
         '--no-interaction' => true,
     ]);
 
-    echo Illuminate\\Support\\Facades\\Artisan::output();
+    echo \Illuminate\Support\Facades\Artisan::output();
 
     if ($exitCode !== 0) {
         exit($exitCode);
