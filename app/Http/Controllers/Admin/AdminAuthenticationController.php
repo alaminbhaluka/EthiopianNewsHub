@@ -1,14 +1,14 @@
 <?php
 
-namespace App\\Http\\Controllers\\Admin;
+namespace App\Http\Controllers\Admin;
 
-use App\\Http\\Controllers\\Controller;
-use Illuminate\\Http\\Request;
-use Illuminate\\Support\\Facades\\Auth;
-use Illuminate\\Support\\Facades\\Hash;
-use Illuminate\\Support\\Facades\\Password;
-use App\\Models\\Admin;
-use Illuminate\\Validation\\Rules\\Password as PasswordRule;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use App\Models\Admin;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class AdminAuthenticationController extends Controller
 {
@@ -77,7 +77,7 @@ class AdminAuthenticationController extends Controller
         if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
             $credentials = ['email' => $login, 'password' => $validated['password'], 'status' => 1];
         } else {
-            $digits = preg_replace('/\\D+/', '', $login);
+            $digits = preg_replace('/\D+/', '', $login);
             if (str_starts_with($digits, '880') && strlen($digits) === 13) {
                 $digits = '0' . substr($digits, 3);
             }
