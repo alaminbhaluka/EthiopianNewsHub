@@ -448,7 +448,7 @@
 
                         $.ajax({
                             method: 'DELETE',
-                            url: "{{ route('news-comment-destroy') }}",
+                            url: "{{ route('comment.destroy') }}",
                             data:{id:id},
                             success: function(data) {
                                 if (data.status === 'success') {
